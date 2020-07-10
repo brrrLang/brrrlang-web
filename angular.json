@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "brrrlang-web"
+    }
+  },
+  "defaultProject": "brrrlang-web",
+  "cli": {
+    "analytics": "b10aa2df-9d84-4c1f-8ba4-d637a23ac886"
+  }
 }
