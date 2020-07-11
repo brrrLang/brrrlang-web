@@ -1,23 +1,38 @@
 import { Injectable } from '@angular/core';
+import {Title} from "@angular/platform-browser";
+import {Page} from "./page"
 
 @Injectable({
   providedIn: 'root'
 })
 export class PageService {
-  private page: String;
-  private headerCallback: () => void;
-  constructor() { }
-  
-  setName(name: String) {
-    this.page = name;
-    this.headerCallback();
+  private page: Page;
+  private headerCallback: () => void = undefined;
+  constructor(private titleService: Title) {
+    this.headerCallback = () => {}
   }
 
-  getName(): String {
+  setName(name: Page) {
+    this.page = name;
+    this.headerCallback();
+    this.titleService.setTitle(name.toString() + " - brrrLang");
+  }
+
+  getName(): Page {
     return this.page;
   }
 
-  setCallback(callback: () => void) {
-    this.headerCallback = callback;
+  addPageChangeCallback(callback: () => void) {
+    if (this.headerCallback == undefined) {
+      this.headerCallback = () => {
+        callback();
+      }
+    } else {
+      let prevCallback = this.headerCallback;
+      this.headerCallback = () => {
+        prevCallback();
+        callback();
+      }
+    }
   }
 }
